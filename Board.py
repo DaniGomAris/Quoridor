@@ -7,19 +7,14 @@ class Board:
         self.board = self.create_board()
 
     def print_board(self):
-        print()
-        curr_row = self.board.head
-        while curr_row:
-            curr_node = curr_row.value.head
+        for row in range(self.n):
             row_str = ''
-            while curr_node:
-                row_str += f"| {curr_node.value} |"
-                curr_node = curr_node.next
-                if curr_node == None:
-                  row_str += f""
+            for col in range(self.n):
+                if (row + col) % 2 == 0:
+                    row_str += '🟨'
+                else:
+                    row_str += '🟫'
             print(row_str)
-            curr_row = curr_row.next
-        print()
 
     def create_board(self):
         board = LinkedList()
@@ -31,49 +26,25 @@ class Board:
         return board
 
     def black_initial_position(self):
-        empty_cells = []
-        curr_row = self.board.head
-        row_index = 0
+        cells = [(0, col) for col in range(self.n)]
 
-        while curr_row:
-            curr_node = curr_row.value.head
-            col_index = 0
-
-            while curr_node:
-                if curr_node.value == ' ':
-                    empty_cells.append((row_index, col_index))
-                elif curr_node.value == '#':
-                    break
-                col_index += 1
-                curr_node = curr_node.next
-            row_index += 1
-            curr_row = curr_row.next
-
-        if empty_cells:
-            row, col = random.choice(empty_cells)
-            self.set_cell(row, col, '\U0001F916')
+        if cells:
+            row, col = random.choice(cells)
+            self.set_cell(row, col, '⚫')
             return row, col
 
     def white_initial_position(self):
+        row = self.n - 1
         while True:
-            row = int(input('Fila: ')) - 1
-            col = int(input('Columna: ')) - 1
-            if self.invalid_cell():
-                print("HOLAAAAAAAAAAAAAAAAAAAAAAAAA")
+            col = int(input('Ingrese columna para aparecer: ')) - 1
             if self.valid_position(row, col):
-                self.set_cell(row, col, '\U0001F47D')
+                self.set_cell(row, col, '⚪')
                 return row, col
             else:
                 print('Posición inválida. Intente de nuevo.')
 
-    def valid_position(self, row, col) -> bool:
+    def valid_position(self, row, col):
         return 0 <= row < self.n and 0 <= col < self.n
-
-    def invalid_cell(self):
-        curr_row = self.board.head
-        curr_node = curr_row.value.head
-        if curr_node == '#':
-          print("HOLAAAAAAAAAAAAAAAAAAAAAAAAA")
 
     def set_cell(self, row, col, value):
         curr_row = self.board.head
@@ -86,7 +57,7 @@ class Board:
 
         curr_node.value = value
 
-    def get_cell_value(self, row, col) -> str:
+    def get_cell_value(self, row, col):
         curr_row = self.board.head
         for _ in range(row):
             curr_row = curr_row.next
@@ -97,3 +68,4 @@ class Board:
 
 board1 = Board(5)
 board1.print_board()
+print('⚫')
