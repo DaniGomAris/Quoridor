@@ -2,14 +2,14 @@ from Board import Board
 import sys
 
 if __name__ == "__main__":
-    option = int(input("""
+    print("""
 __________ Menu Quoridor __________
           
             1. Iniciar
-             2. Salir
-             option: """))
-    print("___________________________________")
+             2. Salir""")
     while True:
+        option = int(input("             option: "))
+        print("___________________________________")
         if option == 1:
             board1 = Board(9)
             board1.print_board()
