@@ -1,7 +1,7 @@
 class EmptyList(Exception):
   pass
 
-class OutRande(Exception):
+class OutRange(Exception):
   pass
 
 class Node:
@@ -24,59 +24,11 @@ class LinkedList:
       self.head = new_node
       self.size += 1
 
-  def add_end(self, current, value):
-    new_node = Node(value)
-    if self.is_empty():
-      self.head = new_node
-      self.size += 1
-    elif current.next is None:
-      current.next = new_node
-      self.size += 1
-    else:
-      self.add_end(current.next, value)
-
-  def add_arbitrary_pos(self, current, value, pos, x=0):
-    new_node = Node(value)
-    if self.is_empty():
-      self.head = new_node
-      self.size += 1
-    if pos < 0 or pos > self.size:
-      raise OutRande("Posicion fuera de rango")
-    elif pos == 0:
-      self.add_head(value)
-    elif x == pos - 1:
-      new_node.next = current.next
-      current.next = new_node
-      self.size += 1
-    else:
-      self.add_arbitrary_pos(current.next, value, pos, x+1)
-  
-  def delete_head(self, current):
-    if self.is_empty():
-      raise EmptyList("Lista vacia")
-    elif current.next is None:
-      self.head = None
-      self.size -= 1
-    else:
-      self.head = current.next
-
-  def delete_end(self, current):
-    if self.is_empty():
-      raise EmptyList("Lista vacia")
-    elif self.head.next == None:
-      self.head = None
-      self.size -= 1
-    elif current.next.next is None:
-      current.next = None
-      self.size -= 1
-    else:
-      self.delete_end(current.next)
-
   def delete_arbitrary_position(self, current, pos, x = 0):
     if self.is_empty():
       raise EmptyList("Lista vacia")
     if pos < 0 or pos > self.size:
-      raise OutRande("Posicion fuera de rango")
+      raise OutRange("Posicion fuera de rango")
     elif pos == 0:
       self.delete_head()
     elif x == pos - 1:
@@ -85,12 +37,11 @@ class LinkedList:
     else:
       self.delete_arbitrary_position(current.next, pos, x+1)
 
-  def traverse(self, current):
-    if current.next is None:
-      print(current.value)
-    else:
-      print(current.value)
-      self.traverse(current.next)
+  def block_cell(self, row, col):
+    try:
+      self.delete_arbitrary_position(None, row * self.n + col)
+    except OutRange:
+      print("Posición fuera de rango")
 
   def is_empty(self):
     return self.size == 0

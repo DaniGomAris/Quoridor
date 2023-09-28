@@ -1,4 +1,4 @@
-from LinkedList import LinkedList
+from LinkedList import *
 import random
 
 class Board:
@@ -24,29 +24,25 @@ class Board:
             row_str = ''  # Inicializa un str para almacenar la fila actual
 
             for col in range(self.n): # Itera a traves de las columnas del tablero, agrega el emoji 🟫 a 'row_str'
-                row_str += '🟫 ' # Agrega el emoji 🟫 a 'row_str'
+                row_str += '🟫' # Agrega el emoji 🟫 a 'row_str'
             print(row_str) # Imprime la fila actual del tablero
 
     def black_initial_position(self):
-        cells = [(0, col) for col in range(self.n)] # Recorre las columnas de la primera fila del tablero y las agrega a la lista 'cells'
+        row = 0
+        col = (self.n // 2) - 1 # Mitad de la ultima fila
 
-        if cells:
-            row, col = random.choice(cells) # Elegir aleatoriamente una columna de la lista 'cells'
+        if self.valid_position(row, col): # Verificar si la posición ingresada es valida
             self.set_cell(row, col, '⚫') # Establecer la celda en la primera fila y columna aleatoria como '⚫'
             return row, col # Devolver las coordenadas (fila y columna) de la celda donde se coloco la ficha negra
 
-    def white_initial_position(self):
+    def white_initial_position(self) -> (int,int):
         row = self.n - 1  # Determinar que la fila donde aparecera la ficha blanca es la ultima
+        col = (self.n // 2) - 1 # Mitad de la ultima fila
 
-        while True:
-            col = int(input('Ingrese columna para aparecer: ')) - 1 # Solicitar al usuario que ingrese la columna donde aparecerá la ficha blanca
-
-            if self.valid_position(row, col): # Verificar si la posición ingresada es valida
-                self.set_cell(row, col, '⚪') # Establecer la celda en la ultima fila y columna seleccionada como '⚪'
-                return row, col # Devolver las coordenadas (fila y columna) de la celda donde se coloco la ficha blanca
-            else:
-                print('Posición invalida, intente de nuevo')
-
+        if self.valid_position(row, col): # Verificar si la posición ingresada es valida
+            self.set_cell(row, col, '⚪') # Establecer la celda en la ultima fila y columna seleccionada como '⚪'
+            return row, col # Devolver las coordenadas (fila y columna) de la celda donde se coloco la ficha blanca
+    
     def valid_position(self, row, col) -> bool:
         return 0 <= row < self.n and 0 <= col < self.n # Verificar si las coordenadas (fila y columna) estan dentro de los limites del tamaño del tablero
 
