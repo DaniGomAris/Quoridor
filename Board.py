@@ -1,5 +1,4 @@
 from LinkedList import LinkedList
-import random
 
 class Board:
     def __init__(self, n: int):
@@ -49,7 +48,7 @@ class Board:
 
     def white_initial_position(self) -> (int,int):
         row = self.n - 1  # Determinar que la fila donde aparecera la ficha blanca es la ultima
-        col = (self.n // 2)# Mitad de la ultima fila
+        col = (self.n // 2) # Mitad de la ultima fila
 
         if self.valid_position(row, col): # Verificar si la posición ingresada es valida
             self.set_cell(row, col, '⚪') # Establecer la celda en la ultima fila y columna seleccionada como '⚪'

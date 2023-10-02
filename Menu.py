@@ -38,7 +38,6 @@ def white_turn():
 1. Move
 2. Block
 option: """))
-        print()
         if option == 1:
             game.white_move()
             game.winner()
@@ -50,7 +49,6 @@ option: """))
             print("-----------------------------------")
             black_turn()
         else:
-            #print('Invalid option, try again')
             continue
 
 def black_turn():
@@ -66,14 +64,12 @@ Black Turn
     random_direction = random.randint(1, 2)
     if random_direction == 1:
         print("¡The black player moved!")
-        print()
         game.black_move()
         game.winner()
         print()
         print("-----------------------------------")
     if random_direction == 2:
         print("¡Black player locks a cell!")
-        print()
         game.black_blockade()
         game.winner()
         print()

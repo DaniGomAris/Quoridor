@@ -14,6 +14,18 @@ class Game:
     def add_black(self):
         self.black_pos = self.board.black_initial_position()
 
+    def jump_two_spaces(self, row, col, direction):
+        if direction == 1:  # Arriba
+            row -= 2
+        elif direction == 2:  # Abajo
+            row += 2
+        elif direction == 3:  # Izquierda
+            col -= 2
+        elif direction == 4:  # Derecha
+            col += 2
+
+        return row, col
+
     def white_move(self):
         while True:
             direction = int(input(
@@ -23,7 +35,7 @@ Directions
 2.down 
 3.left 
 4.right
-option:"""))
+option: """))
             new_row, new_col = self.white_pos
 
             if direction == 1: # Arriba
@@ -46,9 +58,14 @@ option:"""))
                     print("You can't move there is a locked cell")
                     return
                 if node_value == '⚫':
+                    jump_row, jump_col = self.jump_two_spaces(new_row, new_col, direction)
+                    self.board.set_cell(*self.white_pos, '🟫')  # Restaurar la celda original
+                    self.board.set_cell(jump_row, jump_col, '⚪')  # Mover al jugador
+                    self.white_pos = (jump_row, jump_col)  # Actualizar la nueva posición
                     print("In this direction is the black player, you jump 2 cells")
                     return
                 else:
+                    self.board.set_cell(*self.white_pos, '🟫')
                     self.board.set_cell(new_row, new_col, '⚪')
                 self.white_pos = (new_row, new_col)
                 return
@@ -79,9 +96,14 @@ option:"""))
                     print("You can't move there is a locked cell")
                     return
                 if node_value == '⚪':
+                    jump_row, jump_col = self.jump_two_spaces(new_row, new_col, random_direction)
+                    self.board.set_cell(*self.white_pos, '🟫')  # Restaurar la celda original
+                    self.board.set_cell(jump_row, jump_col, '⚫')  # Mover al jugador
+                    self.white_pos = (jump_row, jump_col)  # Actualizar la nueva posición
                     print("In this direction is the white player, you jump 2 cells")
                     return
                 else:
+                    self.board.set_cell(*self.black_pos, '🟫')
                     self.board.set_cell(new_row, new_col, '⚫')
                 self.black_pos = (new_row, new_col)
                 return
@@ -112,6 +134,12 @@ option:"""))
                 print("In the cell is the black player, try again")
                 continue  # Si la casilla ya está bloqueada, intenta nuevamente
 
+            # Verificar si la casilla seleccionada esta el jugador blanco
+            if self.board.get_cell_value(row, col) == '⚪':
+                print()
+                print("In the cell is the white player, try again")
+                continue  # Si la casilla ya está bloqueada, intenta nuevamente
+
             # Bloquear la casilla en el tablero
             self.board.set_cell(row, col, '🟨')
             print(f"White player locks the box in the row {row} y column {col}")
@@ -139,6 +167,12 @@ option:"""))
             if self.board.get_cell_value(row, col) == '⚪':
                 print()
                 print("In the cell is the white player, try again")
+                continue  # Si la casilla ya está bloqueada, intenta nuevamente
+
+            # Verificar si la casilla seleccionada esta el jugador negro
+            if self.board.get_cell_value(row, col) == '⚫':
+                print()
+                print("In the cell is the black player, try again")
                 continue  # Si la casilla ya está bloqueada, intenta nuevamente
 
             # Bloquear la casilla en el tablero
