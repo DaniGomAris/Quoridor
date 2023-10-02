@@ -1,6 +1,4 @@
 import random
-from Board import *
-from LinkedList import *
 
 class Game:
     def __init__(self, board):
@@ -16,13 +14,17 @@ class Game:
 
     def jump_two_spaces(self, row, col, direction):
         if direction == 1:  # Arriba
-            row -= 2
+            row -= 1
+            #row -= 1
         elif direction == 2:  # Abajo
-            row += 2
+            row += 1
+            #row += 1
         elif direction == 3:  # Izquierda
-            col -= 2
+            col -= 1
+            #col -= 1
         elif direction == 4:  # Derecha
-            col += 2
+            col += 1
+            #col += 1
 
         return row, col
 
@@ -57,6 +59,7 @@ option: """))
                 if node_value == '🟨':
                     print("You can't move there is a locked cell")
                     return
+                
                 if node_value == '⚫':
                     jump_row, jump_col = self.jump_two_spaces(new_row, new_col, direction)
                     self.board.set_cell(*self.white_pos, '🟫')  # Restaurar la celda original
@@ -64,11 +67,13 @@ option: """))
                     self.white_pos = (jump_row, jump_col)  # Actualizar la nueva posición
                     print("In this direction is the black player, you jump 2 cells")
                     return
+                
                 else:
                     self.board.set_cell(*self.white_pos, '🟫')
                     self.board.set_cell(new_row, new_col, '⚪')
                 self.white_pos = (new_row, new_col)
                 return
+            
             else:
                 print("You can't move there")
 
@@ -95,18 +100,21 @@ option: """))
                 if node_value == '🟨':
                     print("You can't move there is a locked cell")
                     return
+                
                 if node_value == '⚪':
                     jump_row, jump_col = self.jump_two_spaces(new_row, new_col, random_direction)
-                    self.board.set_cell(*self.white_pos, '🟫')  # Restaurar la celda original
+                    self.board.set_cell(*self.black_pos, '🟫')  # Restaurar la celda original
                     self.board.set_cell(jump_row, jump_col, '⚫')  # Mover al jugador
-                    self.white_pos = (jump_row, jump_col)  # Actualizar la nueva posición
+                    self.black_pos = (jump_row, jump_col)  # Actualizar la nueva posición
                     print("In this direction is the white player, you jump 2 cells")
                     return
+                
                 else:
                     self.board.set_cell(*self.black_pos, '🟫')
                     self.board.set_cell(new_row, new_col, '⚫')
                 self.black_pos = (new_row, new_col)
                 return
+            
             else:
                 print("You can't move there")
 
@@ -181,16 +189,17 @@ option: """))
             break
 
     def winner(self):
-        white_row = self.white_pos
-        black_row = self.black_pos
+        white_row, _ = self.white_pos
+        black_row, _ = self.black_pos
         n = self.board.n
 
         if white_row == 0:
             print("¡The white's player is winner!")
-            print(self.white_pos)
-            return 
-        elif black_row == n - 1:
+            self.board.print_board()
+            return "white"
+        if black_row == n - 1:
             print("¡The black's player is winner!")
-            return 
+            self.board.print_board()
+            return "black"
         else:
             return None

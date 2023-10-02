@@ -16,23 +16,27 @@ class Board:
         return board # Tablero 'board' creado
 
     def print_board(self):
-        curr_row = self.board.head
+        curr_row = self.board.head # Itera a través de las filas de la matriz enlazada
         while curr_row:
+            # Itera a través de los nodos de cada fila
             curr_node = curr_row.value.head
             row_str = ''
             while curr_node:
+                # Concatena el valor de cada nodo a la cadena de la fila
                 row_str += f"{curr_node.value}"
                 curr_node = curr_node.next
-            print(row_str)
+            print(row_str)# Imprime la fila completa
             curr_row = curr_row.next
 
     def add_symbol(self):
+        # Crea una tabla de símbolos ('🟫') para todas las celdas del tablero
         symbol_table = ['🟫'] * (self.n * self.n)
 
-        curr_row = self.board.head
+        curr_row = self.board.head # Itera a traves de las filas de la matriz enlazada
         while curr_row:
-            curr_node = curr_row.value.head
+            curr_node = curr_row.value.head # Itera a través de los nodos de cada fila
             while curr_node:
+                # Asigna un símbolo de la tabla a cada celda vacía en el tablero
                 if symbol_table and curr_node.value is None:
                     curr_node.value = symbol_table.pop()
                 curr_node = curr_node.next

@@ -37,11 +37,5 @@ class LinkedList:
     else:
       self.delete_arbitrary_position(current.next, pos, x+1)
 
-  def block_cell(self, row, col):
-    try:
-      self.delete_arbitrary_position(None, row * self.n + col)
-    except OutRange:
-      print("Posición fuera de rango")
-
   def is_empty(self):
     return self.size == 0

@@ -1,6 +1,6 @@
 import sys
-from Board import *
-from Game import *
+from Board import Board
+from Game import Game
 
 
 board = Board(5)
@@ -19,7 +19,8 @@ def initial_menu():
             board.add_symbol()
             game.add_white()
             game.add_black()
-            white_turn()
+            game_turns()
+            break
 
         elif option == 2:
             sys.exit()
@@ -28,49 +29,51 @@ def initial_menu():
             print('Invalid option, try again')
             continue
 
-def white_turn():
+def game_turns():
     while True:
+
         print()
         board.print_board()
         print()
+
         print("-------------White Turn-------------")
-        option = int(input("""
+        white_option = int(input("""
 1. Move
 2. Block
 option: """))
-        if option == 1:
+        if white_option == 1:
             game.white_move()
-            game.winner()
             print("-----------------------------------")
-            black_turn()
-        if option == 2:
+        if white_option == 2:
             game.white_blockade()
-            game.winner()
             print("-----------------------------------")
-            black_turn()
-        else:
-            continue
+        
+        # Verificar si hay un ganador después del turno del jugador blanco
+        winner = game.winner()
+        if winner:
+            print("Game Over!")
+            break
 
-def black_turn():
-    print()
-    board.print_board()
-    print()
-    print("-------------Black Turn-------------")
-    print("""
+        print()
+        board.print_board()
+        print()
+        print("-------------Black Turn-------------")
+        print("""
 Black Turn
 1. Move
 2. Block""")
-    print()        
-    random_direction = random.randint(1, 2)
-    if random_direction == 1:
-        print("¡The black player moved!")
-        game.black_move()
-        game.winner()
-        print()
-        print("-----------------------------------")
-    if random_direction == 2:
-        print("¡Black player locks a cell!")
-        game.black_blockade()
-        game.winner()
-        print()
-        print("-----------------------------------")
+        print()        
+        black_option  = random.randint(1, 2)
+        if black_option  == 1:
+            print("¡The black player moved!")
+            game.black_move()
+            print("-----------------------------------")
+        if black_option  == 2:
+            game.black_blockade()
+            print("-----------------------------------")
+
+        # Verificar si hay un ganador después del turno del jugador negro
+        winner = game.winner()
+        if winner:
+            print("Game Over!")
+            break
