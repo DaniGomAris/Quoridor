@@ -1,4 +1,5 @@
 import sys
+import random
 from Board import Board
 from Game import Game
 
