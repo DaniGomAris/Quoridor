@@ -35,7 +35,7 @@ option:"""))
             elif direction == 4: # Derecha
                 new_col += 1
             else:
-                print('Dirección inválida. Intente de nuevo.')
+                print('Invalid address, try again')
                 continue
 
             if self.board.valid_position(new_row, new_col):
@@ -43,13 +43,14 @@ option:"""))
                 node_value = self.board.get_cell_value(new_row, new_col)
 
                 if node_value == '🟨':
-                    print("--------------------White's play--------------------")
                     print("You can't move there is a locked cell")
+                    return
+                if node_value == '⚫':
+                    print("In this direction is the black player, you jump 2 cells")
                     return
                 else:
                     self.board.set_cell(new_row, new_col, '⚪')
                 self.white_pos = (new_row, new_col)
-                self.board.print_board()
                 return
             else:
                 print("You can't move there")
@@ -75,8 +76,10 @@ option:"""))
                 node_value = self.board.get_cell_value(new_row, new_col)
 
                 if node_value == '🟨':
-                    print("--------------------Black's play--------------------")
                     print("You can't move there is a locked cell")
+                    return
+                if node_value == '⚪':
+                    print("In this direction is the white player, you jump 2 cells")
                     return
                 else:
                     self.board.set_cell(new_row, new_col, '⚫')
@@ -88,27 +91,30 @@ option:"""))
     def white_blockade(self):
         while True:
             # Solicitar al usuario las coordenadas de fila y columna para bloquear una casilla
-            row = int(input("Ingrese la fila para bloquear: "))
-            col = int(input("Ingrese la columna para bloquear: "))
+            row = int(input("Enter the row to lock: "))
+            col = int(input("Enter the column to lock: "))
                 
             # Verificar si la posición está fuera del rango válido
             if not self.board.valid_position(row, col):
-                print("Posicion fuera de rango, intente de nuevo")
+                print()
+                print("Out of range position, try again")
                 continue  # Continuar con el próximo intento si la posición es inválida
 
             # Verificar si la casilla seleccionada ya está bloqueada
             if self.board.get_cell_value(row, col) == '🟨':
-                print("La casilla ya esta bloqueada, intente de nuevo")
+                print()
+                print("The cell is already locked, try again")
                 continue  # Continuar con el próximo intento si la casilla ya está bloqueada
 
             # Verificar si la casilla seleccionada esta el jugador negro
             if self.board.get_cell_value(row, col) == '⚫':
-                print("En la casilla esta el jugador negro, intente de nuevo")
+                print()
+                print("In the cell is the black player, try again")
                 continue  # Si la casilla ya está bloqueada, intenta nuevamente
 
             # Bloquear la casilla en el tablero
             self.board.set_cell(row, col, '🟨')
-            print(f"Jugador blanco bloquea la casilla en la fila {row} y columna {col}.")
+            print(f"White player locks the box in the row {row} y column {col}")
             break
     
     def black_blockade(self):
@@ -119,22 +125,25 @@ option:"""))
 
             # Verificar si la posición está fuera del rango válido
             if not self.board.valid_position(row, col):
-                print("Posicion fuera de rango, intente de nuevo")
+                print()
+                print("Out of range position, try again")
                 continue  # Continuar con el próximo intento si la posición es inválida
                 
             # Verificar si la casilla seleccionada ya está bloqueada
             if self.board.get_cell_value(row, col) == '🟨':
-                print("La casilla ya esta bloqueada, intente de nuevo")
+                print()
+                print("The cell is already locked, try again")
                 continue  # Si la casilla ya está bloqueada, intenta nuevamente
             
             # Verificar si la casilla seleccionada esta el jugador blanco
             if self.board.get_cell_value(row, col) == '⚪':
-                print("En la casilla esta el jugador blanco, intente de nuevo")
+                print()
+                print("In the cell is the white player, try again")
                 continue  # Si la casilla ya está bloqueada, intenta nuevamente
 
             # Bloquear la casilla en el tablero
             self.board.set_cell(row, col, '🟨')
-            print(f"Jugador negro bloquea la casilla en la fila {row} y columna {col}.")
+            print(f"Black player locks the box in the row {row} y column {col}")
             break
 
     def winner(self):
@@ -143,10 +152,11 @@ option:"""))
         n = self.board.n
 
         if white_row == 0:
-            print("¡El jugador blanco es el ganador!")
+            print("¡The white's player is winner!")
+            print(self.white_pos)
             return 
         elif black_row == n - 1:
-            print("¡El jugador negro es el ganador!")
+            print("¡The black's player is winner!")
             return 
         else:
             return None

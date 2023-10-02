@@ -1,4 +1,4 @@
-from LinkedList import *
+from LinkedList import LinkedList
 import random
 
 class Board:
@@ -17,7 +17,6 @@ class Board:
         return board # Tablero 'board' creado
 
     def print_board(self):
-        print()
         curr_row = self.board.head
         while curr_row:
             curr_node = curr_row.value.head
@@ -27,7 +26,6 @@ class Board:
                 curr_node = curr_node.next
             print(row_str)
             curr_row = curr_row.next
-        print()
 
     def add_symbol(self):
         symbol_table = ['🟫'] * (self.n * self.n)
@@ -41,7 +39,7 @@ class Board:
                 curr_node = curr_node.next
             curr_row = curr_row.next
 
-    def black_initial_position(self):
+    def black_initial_position(self) -> (int,int):
         row = 0
         col = (self.n // 2)# Mitad de la ultima fila
 
