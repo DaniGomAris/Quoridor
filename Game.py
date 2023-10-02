@@ -38,9 +38,9 @@ option:"""))
                 print('Dirección inválida. Intente de nuevo.')
                 continue
 
-            if self.board.Valid_position(new_row, new_col):
+            if self.board.valid_position(new_row, new_col):
 
-                node_value = self.board.Cell_value(new_row, new_col)
+                node_value = self.board.get_cell_value(new_row, new_col)
 
                 if node_value == '🟨':
                     print("--------------------White's play--------------------")
@@ -49,9 +49,10 @@ option:"""))
                 else:
                     self.board.set_cell(new_row, new_col, '⚪')
                 self.white_pos = (new_row, new_col)
+                self.board.print_board()
                 return
             else:
-                print("No te puedes mover ahi, intente de nuevo")
+                print("You can't move there")
 
     def black_move(self):
         while True:
@@ -71,24 +72,24 @@ option:"""))
 
             if self.board.valid_position(new_row, new_col):
 
-                node_value = self.board.Cell_value(new_row, new_col)
+                node_value = self.board.get_cell_value(new_row, new_col)
 
                 if node_value == '🟨':
                     print("--------------------Black's play--------------------")
                     print("You can't move there is a locked cell")
                     return
                 else:
-                    self.board.set_cell(new_row, new_col, '⚪')
+                    self.board.set_cell(new_row, new_col, '⚫')
                 self.black_pos = (new_row, new_col)
                 return
             else:
-                print("No te puedes mover ahi, intente de nuevo")
+                print("You can't move there")
 
     def white_blockade(self):
         while True:
             # Solicitar al usuario las coordenadas de fila y columna para bloquear una casilla
-            row = int(input("Ingrese la fila para bloquear: ") - 1)
-            col = int(input("Ingrese la columna para bloquear: ") - 1)
+            row = int(input("Ingrese la fila para bloquear: "))
+            col = int(input("Ingrese la columna para bloquear: "))
                 
             # Verificar si la posición está fuera del rango válido
             if not self.board.valid_position(row, col):
@@ -100,6 +101,11 @@ option:"""))
                 print("La casilla ya esta bloqueada, intente de nuevo")
                 continue  # Continuar con el próximo intento si la casilla ya está bloqueada
 
+            # Verificar si la casilla seleccionada esta el jugador negro
+            if self.board.get_cell_value(row, col) == '⚫':
+                print("En la casilla esta el jugador negro, intente de nuevo")
+                continue  # Si la casilla ya está bloqueada, intenta nuevamente
+
             # Bloquear la casilla en el tablero
             self.board.set_cell(row, col, '🟨')
             print(f"Jugador blanco bloquea la casilla en la fila {row} y columna {col}.")
@@ -110,9 +116,20 @@ option:"""))
             # Generar coordenadas aleatorias para bloquear una casilla
             row = random.randint(0, self.board.n - 1)
             col = random.randint(0, self.board.n - 1)
+
+            # Verificar si la posición está fuera del rango válido
+            if not self.board.valid_position(row, col):
+                print("Posicion fuera de rango, intente de nuevo")
+                continue  # Continuar con el próximo intento si la posición es inválida
                 
             # Verificar si la casilla seleccionada ya está bloqueada
             if self.board.get_cell_value(row, col) == '🟨':
+                print("La casilla ya esta bloqueada, intente de nuevo")
+                continue  # Si la casilla ya está bloqueada, intenta nuevamente
+            
+            # Verificar si la casilla seleccionada esta el jugador blanco
+            if self.board.get_cell_value(row, col) == '⚪':
+                print("En la casilla esta el jugador blanco, intente de nuevo")
                 continue  # Si la casilla ya está bloqueada, intenta nuevamente
 
             # Bloquear la casilla en el tablero

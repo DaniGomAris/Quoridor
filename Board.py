@@ -11,25 +11,39 @@ class Board:
 
         for i in range(self.n): # Itera a traves de las filas del tablero
             row = LinkedList()  # Crea una lista enlazada 'row' para representar una fila del tablero
-
             for j in range(self.n): # Itera a traves de las columnas del tablero
                 row.add_head(None)  # Agrega un elemento None al inicio de la fila 'row'
             board.add_head(row) # Agrega la fila 'row' al inicio del tablero 'board'
-
         return board # Tablero 'board' creado
-    
+
     def print_board(self):
         print()
-        for row in range(self.n): # Itera a traves de las filas del tablero
-            row_str = ''  # Inicializa un str para almacenar la fila actual
+        curr_row = self.board.head
+        while curr_row:
+            curr_node = curr_row.value.head
+            row_str = ''
+            while curr_node:
+                row_str += f"{curr_node.value}"
+                curr_node = curr_node.next
+            print(row_str)
+            curr_row = curr_row.next
+        print()
 
-            for col in range(self.n): # Itera a traves de las columnas del tablero, agrega el emoji 🟫 a 'row_str'
-                row_str += '🟫' # Agrega el emoji 🟫 a 'row_str'
-            print(row_str) # Imprime la fila actual del tablero
+    def add_symbol(self):
+        symbol_table = ['🟫'] * (self.n * self.n)
+
+        curr_row = self.board.head
+        while curr_row:
+            curr_node = curr_row.value.head
+            while curr_node:
+                if symbol_table and curr_node.value is None:
+                    curr_node.value = symbol_table.pop()
+                curr_node = curr_node.next
+            curr_row = curr_row.next
 
     def black_initial_position(self):
         row = 0
-        col = (self.n // 2) - 1 # Mitad de la ultima fila
+        col = (self.n // 2)# Mitad de la ultima fila
 
         if self.valid_position(row, col): # Verificar si la posición ingresada es valida
             self.set_cell(row, col, '⚫') # Establecer la celda en la primera fila y columna aleatoria como '⚫'
@@ -37,7 +51,7 @@ class Board:
 
     def white_initial_position(self) -> (int,int):
         row = self.n - 1  # Determinar que la fila donde aparecera la ficha blanca es la ultima
-        col = (self.n // 2) - 1 # Mitad de la ultima fila
+        col = (self.n // 2)# Mitad de la ultima fila
 
         if self.valid_position(row, col): # Verificar si la posición ingresada es valida
             self.set_cell(row, col, '⚪') # Establecer la celda en la ultima fila y columna seleccionada como '⚪'
