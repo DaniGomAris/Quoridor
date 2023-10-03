@@ -30,13 +30,13 @@ class Game:
                 if node_value == '🟨': # Si la celda es una celda bloqueada
                     print("You can't move there is a locked cell")
                     if direction == 1:  # Arriba
-                        row += 1
+                        row += 2
                     elif direction == 2:  # Abajo
-                        row -= 1
+                        row -= 2
                     elif direction == 3:  # Izquierda
-                        col += 1
+                        col += 2
                     elif direction == 4:  # Derecha
-                        col -= 1
+                        col -= 2
     
         return row, col
 
