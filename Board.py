@@ -6,7 +6,7 @@ class Board:
         self.board = self.create_board() # Creacion del tablero
 
     def create_board(self):
-        board = LinkedList()  # Crea una lista enlazada 'board' para representar el tablero
+        board = LinkedList() # Crea una lista enlazada 'board' para representar el tablero
 
         for i in range(self.n): # Itera a traves de las filas del tablero
             row = LinkedList()  # Crea una lista enlazada 'row' para representar una fila del tablero
@@ -17,34 +17,30 @@ class Board:
 
     def print_board(self):
         curr_row = self.board.head # Itera a través de las filas de la matriz enlazada
-        while curr_row:
-            # Itera a través de los nodos de cada fila
+        while curr_row: # Itera a través de los nodos de cada fila
             curr_node = curr_row.value.head
             row_str = ''
-            while curr_node:
-                # Concatena el valor de cada nodo a la cadena de la fila
-                row_str += f"{curr_node.value}"
-                curr_node = curr_node.next
+            while curr_node: 
+                row_str += f"{curr_node.value}" # Concatena el valor de cada nodo a la cadena de la fila
+                curr_node = curr_node.next # Pasa al siguiente nodo
             print(row_str)# Imprime la fila completa
-            curr_row = curr_row.next
+            curr_row = curr_row.next # Pasa a la siguiente fila
 
     def add_symbol(self):
-        # Crea una tabla de símbolos ('🟫') para todas las celdas del tablero
-        symbol_table = ['🟫'] * (self.n * self.n)
+        symbol_table = ['🟫'] * (self.n * self.n) # Crea una lista de símbolos ('🟫') para todas las celdas del tablero
 
         curr_row = self.board.head # Itera a traves de las filas de la matriz enlazada
-        while curr_row:
-            curr_node = curr_row.value.head # Itera a través de los nodos de cada fila
-            while curr_node:
-                # Asigna un símbolo de la tabla a cada celda vacía en el tablero
-                if symbol_table and curr_node.value is None:
-                    curr_node.value = symbol_table.pop()
-                curr_node = curr_node.next
-            curr_row = curr_row.next
+        while curr_row: # Itera a través de los nodos de cada fila
+            curr_node = curr_row.value.head 
+            while curr_node: # Itera a través de los nodos de cada fila
+                if symbol_table and curr_node.value is None: # Asigna un símbolo de la tabla a cada celda vacía en el tablero
+                    curr_node.value = symbol_table.pop() # Quita un elemento de la lista de el simbolo del tablero y lo asigna al nodo
+                curr_node = curr_node.next # Pasa al siguiente nodo
+            curr_row = curr_row.next # Pasa a la siguiente fila
 
     def black_initial_position(self) -> (int,int):
-        row = 0
-        col = (self.n // 2)# Mitad de la ultima fila
+        row = 0 # Primera fila
+        col = (self.n // 2) # Mitad de la ultima fila
 
         if self.valid_position(row, col): # Verificar si la posición ingresada es valida
             self.set_cell(row, col, '⚫') # Establecer la celda en la primera fila y columna aleatoria como '⚫'
