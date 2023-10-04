@@ -21,7 +21,7 @@ class Board:
             curr_node = curr_row.value.head
             row_str = ''
             while curr_node: 
-                row_str += f"{curr_node.value}" # Concatena el valor de cada nodo a la cadena de la fila
+                row_str += curr_node.value # Concatena el valor de cada nodo a la cadena de la fila
                 curr_node = curr_node.next # Pasa al siguiente nodo
             print(row_str)# Imprime la fila completa
             curr_row = curr_row.next # Pasa a la siguiente fila
