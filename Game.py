@@ -1,4 +1,5 @@
 import random
+from GeneralTree import GeneralTree
 
 class Game:
     def __init__(self, board):
@@ -123,7 +124,7 @@ option: """))
 
             else:
                 print("You can't move there")
-
+    
     def white_blockade(self):
         while True:
             # Solicitar al usuario las coordenadas de fila y columna para bloquear una casilla
@@ -149,7 +150,7 @@ option: """))
                 print()
                 print("In the cell is the white player, try again")
                 continue  # Continuar con el próximo intento si en la posicion esta el jugador blanco
-
+            
             self.board.set_cell(row, col, '🟨') # Bloquear la casilla en el tablero
             print(f"White player locks the box in the row {row} y column {col}")
             break
@@ -179,7 +180,7 @@ option: """))
                 print()
                 print("In the cell is the black player, try again")
                 continue  # Continuar con el próximo intento si en la posicion esta el jugador negro
-
+            
             self.board.set_cell(row, col, '🟨') # Bloquear la casilla en el tablero
             print(f"Black player locks the box in the row {row} y column {col}")
             break

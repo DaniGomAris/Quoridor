@@ -56,7 +56,7 @@ class Board:
     
     def valid_position(self, row, col) -> bool:
         return 0 <= row < self.n and 0 <= col < self.n # Verificar si las coordenadas (fila y columna) estan dentro de los limites del tamaño del tablero
-
+    
     def set_cell(self, row, col, value):
         curr_row = self.board.head # Se inicializa 'curr_row' como la primera fila del tablero
 
