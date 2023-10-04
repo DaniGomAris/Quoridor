@@ -4,7 +4,7 @@ from Board import Board
 from Game import Game
 
 
-board = Board(5)
+board = Board(int(input("Enter board size: ")))
 game = Game(board)
 
 def initial_menu():

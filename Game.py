@@ -124,7 +124,7 @@ option: """))
 
             else:
                 print("You can't move there")
-    
+
     def white_blockade(self):
         while True:
             # Solicitar al usuario las coordenadas de fila y columna para bloquear una casilla
@@ -152,7 +152,7 @@ option: """))
                 continue  # Continuar con el próximo intento si en la posicion esta el jugador blanco
             
             self.board.set_cell(row, col, '🟨') # Bloquear la casilla en el tablero
-            print(f"White player locks the box in the row {row} y column {col}")
+            print(f"White player locks the cell in the row {row} y column {col}")
             break
     
     def black_blockade(self):
@@ -182,7 +182,7 @@ option: """))
                 continue  # Continuar con el próximo intento si en la posicion esta el jugador negro
             
             self.board.set_cell(row, col, '🟨') # Bloquear la casilla en el tablero
-            print(f"Black player locks the box in the row {row} y column {col}")
+            print(f"Black player locks the cell in the row {row} y column {col}")
             break
 
     def winner(self):
