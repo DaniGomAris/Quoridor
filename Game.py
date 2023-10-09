@@ -42,8 +42,8 @@ class Game:
 
 
     def is_possible_to_win(self):
-        white_win_possible = self.is_possible_to_win_for_player(self.white_pos, 0) # Comprobar si es posible ganar para el jugador blanco
-        black_win_possible = self.is_possible_to_win_for_player(self.black_pos, self.board.n - 1) # Comprobar si es posible ganar para el jugador negro
+        white_win_possible = self.is_possible_to_win_verification(self.white_pos, 0) # Comprobar si es posible ganar para el jugador blanco
+        black_win_possible = self.is_possible_to_win_verification(self.black_pos, self.board.n - 1) # Comprobar si es posible ganar para el jugador negro
         
         return white_win_possible and black_win_possible # Devolver True si es posible ganar para ambos jugadores, si no, devolver False
 

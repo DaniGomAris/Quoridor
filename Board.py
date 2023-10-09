@@ -9,9 +9,9 @@ class Board:
     def create_board(self):
         board = LinkedList() # Crea una lista enlazada 'board' para representar el tablero
 
-        for i in range(self.n): # Itera a traves de las filas del tablero
+        for rows in range(self.n): # Itera a traves de las filas del tablero
             row = LinkedList()  # Crea una lista enlazada 'row' para representar una fila del tablero
-            for j in range(self.n): # Itera a traves de las columnas del tablero
+            for cols in range(self.n): # Itera a traves de las columnas del tablero
                 row.add_head(None)  # Agrega un elemento None al inicio de la fila 'row'
             board.add_head(row) # Agrega la fila 'row' al inicio del tablero 'board'
         return board # Tablero 'board' creado
