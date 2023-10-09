@@ -1,5 +1,5 @@
 import random
-from GeneralTree import GeneralTree
+from BinaryTree import BinaryTree
 
 class Game:
     def __init__(self, board):
@@ -13,6 +13,36 @@ class Game:
 
     def add_black(self):
         self.black_pos = self.board.black_initial_position() # Asigna la posición inicial del jugador negro en el tablero
+
+    def is_possible_to_win_for_player(self, player_pos, target_row):
+        visited = set()
+
+        def dfs(row, col):
+            if row == target_row:
+                return True
+
+            if (row, col) in visited:
+                return False
+
+            visited.add((row, col))
+
+            directions = [(0, 1), (1, 0), (0, -1), (-1, 0)]
+            for dr, dc in directions:
+                new_row, new_col = row + dr, col + dc
+                if self.board.valid_position(new_row, new_col) and self.board.get_cell_value(new_row, new_col) != '🟨':
+                    if dfs(new_row, new_col):
+                        return True
+
+            return False
+
+        current_row, current_col = player_pos
+        return dfs(current_row, current_col)
+
+    def is_possible_to_win(self):
+        white_win_possible = self.is_possible_to_win_for_player(self.white_pos, 0)
+        black_win_possible = self.is_possible_to_win_for_player(self.black_pos, self.board.n - 1)
+        
+        return white_win_possible and black_win_possible
 
     def jump_two_spaces(self, row, col, direction, player_pos): # El player_pos, es donde se pone si lo esta usando el blanco o el negro
         # Después de saltar una vez, vuelve y salta por eso se le vuelve a sumar +1, si fuera +2 saltaría 3 espacios
@@ -152,6 +182,13 @@ option: """))
                 continue  # Continuar con el próximo intento si en la posicion esta el jugador blanco
             
             self.board.set_cell(row, col, '🟨') # Bloquear la casilla en el tablero
+
+            if not self.is_possible_to_win(): # Se bloquea la casilla y se verifica si se puede ganar, si no se puede ganar sigue con el condicional
+                print()
+                print("Unable to win if that cell is locked, try again")
+                self.board.set_cell(row, col, '🟫')  # Se desbloquea la casilla
+                continue # Continuar con el próximo intento si en la posicion que se intento bloquar impide ganar
+
             print(f"White player locks the cell in the row {row} y column {col}")
             break
     
@@ -164,8 +201,8 @@ option: """))
             if not self.board.valid_position(row, col): # Verificar si la posición está fuera del rango válido
                 print()
                 print("Out of range position, try again")
-                continue  # Continuar con el próximo intento si la posición esta fuera de rango
-                            
+                self.black_blockade()  # Continuar con el próximo intento si la posición esta fuera de rango
+
             if self.board.get_cell_value(row, col) == '🟨': # Verificar si la casilla seleccionada ya está bloqueada
                 print()
                 print("The cell is already locked, try again")
@@ -182,13 +219,20 @@ option: """))
                 continue  # Continuar con el próximo intento si en la posicion esta el jugador negro
             
             self.board.set_cell(row, col, '🟨') # Bloquear la casilla en el tablero
+
+            if not self.is_possible_to_win(): # Se bloquea la casilla y se verifica si se puede ganar, si no se puede ganar sigue con el condicional
+                print()
+                print("Unable to win if that cell is locked, try again")
+                self.board.set_cell(row, col, '🟫')  # Se desbloquea la casilla
+                continue # Continuar con el próximo intento si en la posicion que se intento bloquar impide ganar
+
             print(f"Black player locks the cell in the row {row} y column {col}")
             break
 
     def winner(self):
         # Tupla (row, col)
         # En la primera coordenada (row) es las posiciones en la fila de los jugadores
-        # En la egunda coordenada (col) el "_" es la forma de indicar que no vamos a utilizar esa parte de la tupla
+        # En la segunda coordenada (col) el "_" es la forma de indicar que no vamos a utilizar esa parte de la tupla
         white_row, _ = self.white_pos
         black_row, _ = self.black_pos
         n = self.board.n
@@ -197,6 +241,7 @@ option: """))
             print("¡The white's player is winner!")
             self.board.print_board()
             return "white"
+        
         if black_row == n - 1: # Si la fila es la ultima del tablero
             print("¡The black's player is winner!")
             self.board.print_board()

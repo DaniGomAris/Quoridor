@@ -3,7 +3,6 @@ import random
 from Board import Board
 from Game import Game
 
-
 board = Board(int(input("Enter board size: ")))
 game = Game(board)
 
@@ -15,6 +14,7 @@ def initial_menu():
             1. Initiate
              2. Exit
                option: """))
+        
         print("-----------------------------------")
         if option == 1:
             board.add_symbol()
@@ -42,13 +42,14 @@ def game_turns():
 1. Move
 2. Block
 option: """))
+        
         if white_option == 1:
             game.white_move()
             print("-----------------------------------")
         if white_option == 2:
             game.white_blockade()
             print("-----------------------------------")
-        
+
         # Verificar si hay un ganador después del turno del jugador blanco
         winner = game.winner()
         if winner:
