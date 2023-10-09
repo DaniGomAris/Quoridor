@@ -172,34 +172,28 @@ option: """))
         col = int(input("Enter the column to lock: "))
                 
         if not self.board.valid_position(row, col):  # Verificar si la posición está fuera del rango válido
-            print()
             print("Cannot be blocked, out of range position")
             return
 
         if self.board.get_cell_value(row, col) == '🟨': # Verificar si la casilla seleccionada ya está bloqueada
-            print()
             print("Cannot be blocked, the cell is already locked")
             return
 
         if self.board.get_cell_value(row, col) == '⚫': # Verificar si la casilla seleccionada esta el jugador negro
-            print()
             print("Cannot be blocked, in the cell is the black player")
             return
 
         if self.board.get_cell_value(row, col) == '⚪': # Verificar si la casilla seleccionada esta el jugador blanco
-            print()
             print("Cannot be blocked, in the cell is the white player")
             return
             
         self.board.set_cell(row, col, '🟨') # Bloquear la casilla en el tablero
 
         if not self.is_possible_to_win(): # Se bloquea la casilla y se verifica si se puede ganar, si no se puede ganar sigue con el condicional
-            print()
             print("Cannot be blocked, unable to win if that cell is locked")
             self.board.set_cell(row, col, '🟫')  # Se desbloquea la casilla
             return
         
-        print()
         print(f"White player locks the cell in the row {row} y column {col}")
     
 
@@ -209,34 +203,29 @@ option: """))
         col = random.randint(0, self.board.n - 1)
            
         if not self.board.valid_position(row, col): # Verificar si la posición está fuera del rango válido
-            print()
-            print("Cannot be blocked, out of range position, try again")
+            print("Cannot be blocked, out of range position")
             return
 
         if self.board.get_cell_value(row, col) == '🟨': # Verificar si la casilla seleccionada ya está bloqueada
-            print()
-            print("Cannot be blocked, the cell is already locked, try again")
+            print("Cannot be blocked, the cell is already locked")
             return
                         
         if self.board.get_cell_value(row, col) == '⚪': # Verificar si la casilla seleccionada esta el jugador blanco
-            print()
-            print("Cannot be blocked, in the cell is the white player, try again")
+            print("Cannot be blocked, in the cell is the white player")
             return
 
         if self.board.get_cell_value(row, col) == '⚫': # Verificar si la casilla seleccionada esta el jugador negro
-            print()
-            print("Cannot be blocked, in the cell is the black player, try again")
+            print("Cannot be blocked, in the cell is the black player")
             return
             
         self.board.set_cell(row, col, '🟨') # Bloquear la casilla en el tablero
 
         if not self.is_possible_to_win(): # Se bloquea la casilla y se verifica si se puede ganar, si no se puede ganar sigue con el condicional
-            print()
-            print("Cannot be blocked, unable to win if that cell is locked, try again")
+
+            print("Cannot be blocked, unable to win if that cell is locked")
             self.board.set_cell(row, col, '🟫')  # Se desbloquea la casilla
             return
         
-        print()
         print(f"Black player locks the cell in the row {row} y column {col}")
 
 
@@ -250,12 +239,14 @@ option: """))
         if white_row == 0: # Si la fila es la 0
             print()
             print("¡The white's player is winner!")
+            print()
             self.board.print_board()
             return True
         
         if black_row == self.board.n - 1: # Si la fila es la ultima del tablero
             print()
             print("¡The black's player is winner!")
+            print()
             self.board.print_board()
             return True
         else:

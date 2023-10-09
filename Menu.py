@@ -54,6 +54,7 @@ option: """))
         # Verificar si hay un ganador después del turno del jugador blanco
         winner = game.winner()
         if winner:
+            print()
             print("Game Over!")
             break
 
@@ -65,7 +66,7 @@ option: """))
 Black Turn
 1. Move
 2. Block""")
-        print()        
+        print()    
         black_option  = random.randint(1, 2)
         if black_option  == 1:
             print("¡The black player moved!")
