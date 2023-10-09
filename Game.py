@@ -60,11 +60,13 @@ class Game:
             col += 1
 
         if not self.board.valid_position(row, col):  # Verifica si la nueva posición está fuera de los límites del tablero
+            print()
             print("You can't move there you leave the limits of the board")
             row, col = player_pos  # Si está fuera del rango, regresar a la posición original
 
         node_value = self.board.get_cell_value(row, col)  # Obtiene el valor de la celda en la nueva posición
         if node_value == '🟨':  # Si la celda a la que va a saltar es una celda bloqueada
+            print()
             print("You can't move there is a locked cell")
             row, col = player_pos  # Si está fuera del rango, regresar a la posición original
 
@@ -99,6 +101,7 @@ option: """))
             node_value = self.board.get_cell_value(new_row, new_col) # Obtiene el valor de la celda en la nueva posición
 
             if node_value == '🟨': # Si la celda a la que va a saltar es una celda bloqueada
+                print()
                 print("You can't move there, is a locked cell")
                 return
 
@@ -107,7 +110,8 @@ option: """))
                 self.board.set_cell(*self.white_pos, '🟫')  # Restaurar la celda original
                 self.board.set_cell(jump_row, jump_col, '⚪')  # Mover al jugador blanco
                 self.white_pos = (jump_row, jump_col)  # Actualizar la nueva posición
-                print("You can't move there, in this direction is the black player, you jump 2 cells")
+                print()
+                print("In this direction is the black player, you jump 2 cells")
                 return
 
             else:
@@ -138,6 +142,7 @@ option: """))
             node_value = self.board.get_cell_value(new_row, new_col) # Obtiene el valor de la celda en la nueva posición
 
             if node_value == '🟨': # Si la celda a la que va a saltar es una celda bloqueada
+                print()
                 print("You can't move there, is a locked cell")
                 return
 
@@ -146,7 +151,8 @@ option: """))
                 self.board.set_cell(*self.black_pos, '🟫')  # Restaurar la celda original
                 self.board.set_cell(jump_row, jump_col, '⚫')  # Mover al jugador negro
                 self.black_pos = (jump_row, jump_col)  # Actualizar la nueva posición
-                print("You can't move there, in this direction is the white player, you jump 2 cells")
+                print()
+                print("In this direction is the white player, you jump 2 cells")
                 return
 
             else:
@@ -192,7 +198,8 @@ option: """))
             print("Cannot be blocked, unable to win if that cell is locked")
             self.board.set_cell(row, col, '🟫')  # Se desbloquea la casilla
             return
-
+        
+        print()
         print(f"White player locks the cell in the row {row} y column {col}")
     
 
@@ -228,7 +235,8 @@ option: """))
             print("Cannot be blocked, unable to win if that cell is locked, try again")
             self.board.set_cell(row, col, '🟫')  # Se desbloquea la casilla
             return
-
+        
+        print()
         print(f"Black player locks the cell in the row {row} y column {col}")
 
 
@@ -240,11 +248,13 @@ option: """))
         black_row, _ = self.black_pos
 
         if white_row == 0: # Si la fila es la 0
+            print()
             print("¡The white's player is winner!")
             self.board.print_board()
             return True
         
         if black_row == self.board.n - 1: # Si la fila es la ultima del tablero
+            print()
             print("¡The black's player is winner!")
             self.board.print_board()
             return True
