@@ -19,7 +19,7 @@ class Game:
     def is_possible_to_win_verification(self, player_pos, win_row):
         row, col = player_pos # Obtener las coordenadas del jugador
 
-        if row == win_row: # Verificar si el jugador ya llego a la fila ganadora
+        if row == win_row: # Verificar si el jugador ya llego a la fila ganadora, para saber si es posible ganar o no
             return True
 
         # Marcar la celda actual como visitada
@@ -28,7 +28,7 @@ class Game:
 
         directions = [(0, 1), (1, 0), (0, -1), (-1, 0)] # Direcciones posibles: arriba, derecha, abajo, izquierda
 
-        # Recorrer las celdas adyacentes
+        # Recorrer las celdas adyacentes, en el enfoque recursivo, el jugador se va moviendo por todas las direcciones posibles hasta llegar a al linea ganadora
         for change_row, change_col in directions:
             new_row, new_col = row + change_row, col + change_col
 
@@ -84,7 +84,7 @@ Directions
 option: """))
             
         new_row, new_col = self.white_pos # Obtiene las coordenadas actuales del jugador blanco (fila y columna) en la forma (new_row, new_col)
-
+        print()
         if direction == 1:  # Arriba
             new_row -= 1
         elif direction == 2:  # Abajo
@@ -101,7 +101,6 @@ option: """))
             node_value = self.board.get_cell_value(new_row, new_col) # Obtiene el valor de la celda en la nueva posición
 
             if node_value == '🟨': # Si la celda a la que va a saltar es una celda bloqueada
-                print()
                 print("You can't move there, is a locked cell")
                 return
 
@@ -110,7 +109,6 @@ option: """))
                 self.board.set_cell(*self.white_pos, '🟫')  # Restaurar la celda original
                 self.board.set_cell(jump_row, jump_col, '⚪')  # Mover al jugador blanco
                 self.white_pos = (jump_row, jump_col)  # Actualizar la nueva posición
-                print()
                 print("In this direction is the black player, you jump 2 cells")
                 return
 
@@ -121,7 +119,6 @@ option: """))
             return
 
         else:
-            print()
             print("You can't move there, is off the board")
 
 
@@ -167,10 +164,12 @@ option: """))
 
 
     def white_blockade(self):
+        print()
         # Solicitar al usuario las coordenadas de fila y columna para bloquear una casilla
         row = int(input("Enter the row to lock: "))
         col = int(input("Enter the column to lock: "))
-                
+
+        print() 
         if not self.board.valid_position(row, col):  # Verificar si la posición está fuera del rango válido
             print("Cannot be blocked, out of range position")
             return
