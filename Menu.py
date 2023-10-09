@@ -30,6 +30,7 @@ def initial_menu():
             print('Invalid option, try again')
             continue
 
+
 def game_turns():
     while True:
 

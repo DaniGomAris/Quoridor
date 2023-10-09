@@ -14,6 +14,7 @@ class LinkedList:
     self.head = None
     self.size = 0
 
+
   def add_head(self, value):
     new_node = Node(value)
     if self.is_empty():
@@ -23,6 +24,7 @@ class LinkedList:
       new_node.next = self.head
       self.head = new_node
       self.size += 1
+
 
   def delete_arbitrary_position(self, current, pos, x = 0):
     if self.is_empty():
@@ -36,6 +38,7 @@ class LinkedList:
       self.size -= 1
     else:
       self.delete_arbitrary_position(current.next, pos, x+1)
+
 
   def is_empty(self):
     return self.size == 0
