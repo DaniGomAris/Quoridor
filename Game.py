@@ -17,6 +17,8 @@ class Game:
 
 
     def is_possible_to_win_verification(self, player_pos, win_row):
+        print()
+        self.board.print_board()
         row, col = player_pos # Obtener las coordenadas del jugador
 
         if row == win_row: # Verificar si el jugador ya llego a la fila ganadora, para saber si es posible ganar o no
@@ -32,13 +34,13 @@ class Game:
         for change_row, change_col in directions:
             new_row, new_col = row + change_row, col + change_col
 
-            # Verificar si la nueva posición es válida y no está bloqueada
+            # Verificar si la nueva posición es válida, no está visitada y es posible ganar
             if self.board.valid_position(new_row, new_col) and self.board.get_cell_value(new_row, new_col) != '🟨' and self.is_possible_to_win_verification((new_row, new_col), win_row):
                 self.board.set_cell(row, col, current_value) # Restaurar el valor original
                 return True
 
         self.board.set_cell(row, col, current_value) # Restaurar el valor original si no se encontro una solución
-        return False
+        return False # Si no es posible ganar devuelve False
 
 
     def is_possible_to_win(self):
