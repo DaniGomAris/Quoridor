@@ -6,15 +6,17 @@ class Board:
         self.board = self.create_board() # Creacion del tablero
 
 
-    def create_board(self):
-        board = LinkedList() # Crea una lista enlazada 'board' para representar el tablero
+    def create_board(self, board = None, current_row = 0):
+        if board is None: # Si no existe tablero, se crea una instancia de la clase LinkedList()
+            board = LinkedList()
+        if current_row == self.n: # Si ya se alcanzo el numero de filas retorna el tablero creado
+            return board
+        row = LinkedList() # Se crea una instancia de la clase LinkedList(), para cada fila
+        for columns in range(self.n): # Crea "self.n" comunas en la fila
+            row.add_head(None) # Se añade "None" al principio de la fila 
+        board.add_head(row) # Agrega neuvas filas "row" al principio del tablero 
 
-        for rows in range(self.n): # Itera a traves de las filas del tablero
-            row = LinkedList()  # Crea una lista enlazada 'row' para representar una fila del tablero
-            for cols in range(self.n): # Itera a traves de las columnas del tablero
-                row.add_head(None)  # Agrega un elemento None al inicio de la fila 'row'
-            board.add_head(row) # Agrega la fila 'row' al inicio del tablero 'board'
-        return board # Tablero 'board' creado
+        return self.create_board(board, current_row + 1) # Se pasa a la siguiente fila
 
 
     def print_board(self):
@@ -25,7 +27,7 @@ class Board:
             while curr_node: 
                 row_str += curr_node.value # Concatena el valor de cada nodo a la cadena de la fila
                 curr_node = curr_node.next # Pasa al siguiente nodo
-            print(row_str)# Imprime la fila completa
+            print(row_str) # Imprime la fila completa
             curr_row = curr_row.next # Pasa a la siguiente fila
 
 
@@ -74,7 +76,7 @@ class Board:
         for _ in range(col): # Avanzar hasta la columna especificada
             curr_node = curr_node.next # Pasar a la siguiente columna
 
-        curr_node.value = value # Establecer el valor de la celda en la fila y columna especificadas.
+        curr_node.value = value # Establecer el valor de la celda en la fila y columna especificadas
 
 
     def get_cell_value(self, row, col):

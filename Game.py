@@ -16,17 +16,16 @@ class Game:
         self.black_pos = self.board.black_initial_position() # Asigna la posición inicial del jugador negro en el tablero
 
 
-    def is_possible_to_win_verification(self, player_pos, win_row):
-        print()
-        self.board.print_board()
+    def is_possible_to_win_verification(self, player_pos, win_row): # Bloquea temporalmente una casilla y se activa este metodo para verificar si se puede ganar al hacer el bloqueo
+        #print()
+        #self.board.print_board()
         row, col = player_pos # Obtener las coordenadas del jugador
 
-        if row == win_row: # Verificar si el jugador ya llego a la fila ganadora, para saber si es posible ganar o no
-            return True
+        if row == win_row: # Verificar si el jugador pudo llegar a la fila ganadora
+            return True  # Retorna True si pudo llegar
 
-        # Marcar la celda actual como visitada
-        current_value = self.board.get_cell_value(row, col)
-        self.board.set_cell(row, col, '🟨') # Marcar la celda actual como visitada
+        current_value = self.board.get_cell_value(row, col) # Celdas visitadas
+        self.board.set_cell(row, col, '🟦') # Marcar la celda actual como visitada
 
         directions = [(0, 1), (1, 0), (0, -1), (-1, 0)] # Direcciones posibles: arriba, derecha, abajo, izquierda
 
@@ -34,19 +33,26 @@ class Game:
         for change_row, change_col in directions:
             new_row, new_col = row + change_row, col + change_col
 
-            # Verificar si la nueva posición es válida, no está visitada y es posible ganar
-            if self.board.valid_position(new_row, new_col) and self.board.get_cell_value(new_row, new_col) != '🟨' and self.is_possible_to_win_verification((new_row, new_col), win_row):
-                self.board.set_cell(row, col, current_value) # Restaurar el valor original
-                return True
+            # Verificar si se puede llegar a la fila objetivo
+            if (self.board.valid_position(new_row, new_col) # Si pasa por las celdas validas
+                and self.board.get_cell_value(new_row, new_col) != '🟦' # Si no pasa por las celdas visitadas
+                and self.board.get_cell_value(new_row, new_col) != '🟨' # Si no pasa por los bloqueos
+                and self.is_possible_to_win_verification((new_row, new_col), win_row)): # Llamado recursivo
+
+                self.board.set_cell(row, col, current_value) # Restaurar las celdas por las que paso
+                return True # Retorna True si pudo llegar
 
         self.board.set_cell(row, col, current_value) # Restaurar el valor original si no se encontro una solución
         return False # Si no es posible ganar devuelve False
 
 
     def is_possible_to_win(self):
+        #print("Intento de llegar a la linea de ganada para el blanco")
         white_win_possible = self.is_possible_to_win_verification(self.white_pos, 0) # Comprobar si es posible ganar para el jugador blanco
+        #print()
+        #print("Intento de llegar a la linea de ganada para el negro")
         black_win_possible = self.is_possible_to_win_verification(self.black_pos, self.board.n - 1) # Comprobar si es posible ganar para el jugador negro
-        
+        #print()
         return white_win_possible and black_win_possible # Devolver True si es posible ganar para ambos jugadores, si no, devolver False
 
 
@@ -61,15 +67,14 @@ class Game:
         elif direction == 4:  # Derecha
             col += 1
 
+        print()
         if not self.board.valid_position(row, col):  # Verifica si la nueva posición está fuera de los límites del tablero
-            print()
-            print("You can't move there you leave the limits of the board")
+            print("You can't move there, you leave the limits of the board")
             row, col = player_pos  # Si está fuera del rango, regresar a la posición original
 
         node_value = self.board.get_cell_value(row, col)  # Obtiene el valor de la celda en la nueva posición
         if node_value == '🟨':  # Si la celda a la que va a saltar es una celda bloqueada
-            print()
-            print("You can't move there is a locked cell")
+            print("You can't move there, is a locked cell")
             row, col = player_pos  # Si está fuera del rango, regresar a la posición original
 
         return row, col # Devuelve las cordenadas despues de saltar otra vez
