@@ -1,4 +1,5 @@
 import random
+from LinkedList import LinkedList
 
 class Game:
     def __init__(self, board):
@@ -17,8 +18,8 @@ class Game:
 
 
     def is_possible_to_win_verification(self, player_pos, win_row): # Bloquea temporalmente una casilla y se activa este metodo para verificar si se puede ganar al hacer el bloqueo
-        #print()
-        #self.board.print_board()
+        print()
+        self.board.print_board()
         row, col = player_pos # Obtener las coordenadas del jugador
 
         if row == win_row: # Verificar si el jugador pudo llegar a la fila ganadora
@@ -27,32 +28,40 @@ class Game:
         current_value = self.board.get_cell_value(row, col) # Celdas visitadas
         self.board.set_cell(row, col, '🟦') # Marcar la celda actual como visitada
 
-        directions = [(0, 1), (1, 0), (0, -1), (-1, 0)] # Direcciones posibles: arriba, derecha, abajo, izquierda
+        directions = LinkedList() # Se crea una lsita enlazada para guardar las direcciones posibles: arriba, derecha, abajo, izquierda
+        directions.add_head((-1,0)) # Arriba
+        directions.add_head((1,0)) # Abajo
+        directions.add_head((0,-1)) # Izquierda
+        directions.add_head((0,1)) # Derecha
 
-        # Recorrer las celdas adyacentes, en el enfoque recursivo, el jugador se va moviendo por todas las direcciones posibles hasta llegar a al linea ganadora
-        for change_row, change_col in directions:
-            new_row, new_col = row + change_row, col + change_col
+        current = directions.head # Paara recorrer la lista enlazada
+
+        while current:
+            change_row, change_col = current.value # Obtener los cambios en las coordenadas desde la direccion actual, de la lista enlazada "directions"
+            new_row, new_col = row + change_row, col + change_col # Calcular las nuevas coordenadas sumando los cambios a las coordenadas actuales, de la lista enlazada
 
             # Verificar si se puede llegar a la fila objetivo
             if (self.board.valid_position(new_row, new_col) # Si pasa por las celdas validas
                 and self.board.get_cell_value(new_row, new_col) != '🟦' # Si no pasa por las celdas visitadas
                 and self.board.get_cell_value(new_row, new_col) != '🟨' # Si no pasa por los bloqueos
-                and self.is_possible_to_win_verification((new_row, new_col), win_row)): # Llamado recursivo
+                and self.is_possible_to_win_verification((new_row, new_col), win_row)): # Llamado recursivo y para que se cumpla el IF tiene que hacer retornado True
 
                 self.board.set_cell(row, col, current_value) # Restaurar las celdas por las que paso
                 return True # Retorna True si pudo llegar
+            
+            current = current.next # Pasar a la siguiente dirección en la lista enlazada
 
         self.board.set_cell(row, col, current_value) # Restaurar el valor original si no se encontro una solución
         return False # Si no es posible ganar devuelve False
 
 
     def is_possible_to_win(self):
-        #print("Intento de llegar a la linea de ganada para el blanco")
+        print("Intento de llegar a la linea de ganada para el blanco")
         white_win_possible = self.is_possible_to_win_verification(self.white_pos, 0) # Comprobar si es posible ganar para el jugador blanco
-        #print()
-        #print("Intento de llegar a la linea de ganada para el negro")
+        print()
+        print("Intento de llegar a la linea de ganada para el negro")
         black_win_possible = self.is_possible_to_win_verification(self.black_pos, self.board.n - 1) # Comprobar si es posible ganar para el jugador negro
-        #print()
+        print()
         return white_win_possible and black_win_possible # Devolver True si es posible ganar para ambos jugadores, si no, devolver False
 
 
