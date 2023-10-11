@@ -28,17 +28,17 @@ class Game:
         current_value = self.board.get_cell_value(row, col) # Celdas visitadas
         self.board.set_cell(row, col, '🟦') # Marcar la celda actual como visitada
 
-        directions = LinkedList() # Se crea una lsita enlazada para guardar las direcciones posibles: arriba, derecha, abajo, izquierda
+        directions = LinkedList() # Se crea una lista enlazada para guardar las direcciones posibles: arriba, abajo, izquierda, derecha...
         directions.add_head((-1,0)) # Arriba
         directions.add_head((1,0)) # Abajo
         directions.add_head((0,-1)) # Izquierda
         directions.add_head((0,1)) # Derecha
 
-        current = directions.head # Paara recorrer la lista enlazada
+        current = directions.head # Para recorrer la lista enlazada "directions"
 
         while current:
-            change_row, change_col = current.value # Obtener los cambios en las coordenadas desde la direccion actual, de la lista enlazada "directions"
-            new_row, new_col = row + change_row, col + change_col # Calcular las nuevas coordenadas sumando los cambios a las coordenadas actuales, de la lista enlazada
+            change_row, change_col = current.value # Obtener los cambios en las coordenadas desde la direccion actual de la lista enlazada "directions"
+            new_row, new_col = row + change_row, col + change_col # Calcular las nuevas coordenadas sumando los cambios a las coordenadas actuales de la lista enlazada "directions"
 
             # Verificar si se puede llegar a la fila objetivo
             if (self.board.valid_position(new_row, new_col) # Si pasa por las celdas validas
