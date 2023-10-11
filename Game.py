@@ -256,13 +256,13 @@ option: """))
             print("¡The white's player is winner!")
             print()
             self.board.print_board()
-            return True
+            return True # Retorna True si el blanco gano
         
         if black_row == self.board.n - 1: # Si la fila es la ultima del tablero
             print()
             print("¡The black's player is winner!")
             print()
             self.board.print_board()
-            return True
+            return True # Retorna True si el negro gano
         else:
-            return None # Devuelve None si no hay un ganador en el turno actual
+            return False # Retorna False si no hay un ganador en el turno actual
