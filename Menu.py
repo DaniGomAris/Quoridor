@@ -20,6 +20,7 @@ def initial_menu():
             board.add_symbol()
             game.add_white()
             game.add_black()
+            game.obligatory_cell()
             game_turns()
             break
 

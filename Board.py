@@ -1,4 +1,5 @@
 from LinkedList import LinkedList
+import random
 
 class Board:
     def __init__(self, n: int):
@@ -46,7 +47,7 @@ class Board:
 
     def black_initial_position(self) -> (int,int):
         row = 0 # Primera fila
-        col = (self.n // 2) # Mitad de la ultima fila
+        col = random.randint(0, self.n - 1) # Columna aleatoria
 
         if self.valid_position(row, col): # Verificar si la posición ingresada es valida
             self.set_cell(row, col, '⚫') # Establecer la celda en la primera fila y columna aleatoria como '⚫'
@@ -55,13 +56,13 @@ class Board:
 
     def white_initial_position(self) -> (int,int):
         row = self.n - 1  # Determinar que la fila donde aparecera la ficha blanca es la ultima
-        col = (self.n // 2) # Mitad de la ultima fila
+        col = random.randint(0, self.n - 1) # Columna aleatoria
 
         if self.valid_position(row, col): # Verificar si la posición ingresada es valida
             self.set_cell(row, col, '⚪') # Establecer la celda en la ultima fila y columna seleccionada como '⚪'
             return row, col # Devolver las coordenadas (fila y columna) de la celda donde se coloco la ficha blanca
+        
     
-
     def valid_position(self, row, col) -> bool:
         return 0 <= row < self.n and 0 <= col < self.n # Verificar si las coordenadas (fila y columna) estan dentro de los limites del tamaño del tablero
     

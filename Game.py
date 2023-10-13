@@ -16,18 +16,32 @@ class Game:
     def add_black(self):
         self.black_pos = self.board.black_initial_position() # Asigna la posición inicial del jugador negro en el tablero
 
+    
+    def obligatory_cell(self) -> (int,int):
+        row = random.randint(1, self.board.n - 2) # Fila desde la segunda fila hasta la n-2
+        col = random.randint(0, self.board.n - 1) # Columna aleatoria desde la primera columna hasta la n-1
 
-    def is_possible_to_win_verification(self, player_pos, win_row): # Bloquea temporalmente una casilla y se activa este metodo para verificar si se puede ganar al hacer el bloqueo
+        self.board.set_cell(row, col, '🟩') # Añadir celda obligatoria
+
+
+    def is_possible_to_win_verification(self, player_pos, win_row, obligatory_cell = '🟩', passed = False): # Bloquea temporalmente una casilla y se activa este metodo para verificar si se puede ganar al hacer el bloqueo
         print()
         self.board.print_board()
         row, col = player_pos # Obtener las coordenadas del jugador
 
-        if row == win_row: # Verificar si el jugador pudo llegar a la fila ganadora
-            return True  # Retorna True si pudo llegar
+        if row == win_row and passed: # Verificar si el jugador pudo llegar a la fila ganadora y paso por la celda obligatoria
+            return True  # Retorna True si pudo llegar y paso por la celda obligatoria
 
         current_value = self.board.get_cell_value(row, col) # Celdas visitadas
-        self.board.set_cell(row, col, '🟦') # Marcar la celda actual como visitada
 
+        print(passed)
+        if current_value == obligatory_cell:
+            passed = True
+            print("Pase por la celda obligatoria")
+            print(passed)
+
+        self.board.set_cell(row, col, '🟦') # Marcar la celda actual como visitada
+        
         directions = LinkedList() # Se crea una lista enlazada para guardar las direcciones posibles: arriba, abajo, izquierda, derecha...
         directions.add_head((-1,0)) # Arriba
         directions.add_head((1,0)) # Abajo
@@ -38,13 +52,12 @@ class Game:
 
         while current:
             change_row, change_col = current.value # Obtener los cambios en las coordenadas desde la direccion actual de la lista enlazada "directions"
-            new_row, new_col = row + change_row, col + change_col # Calcular las nuevas coordenadas sumando los cambios a las coordenadas actuales de la lista enlazada "directions"
-
+            new_row, new_col = row + change_row, col + change_col # Calcular las nuevas coordenadas sumando los cambios a las coordenadas actuales de la lista enlazada "directions"w
             # Verificar si se puede llegar a la fila objetivo
             if (self.board.valid_position(new_row, new_col) # Si pasa por las celdas validas
                 and self.board.get_cell_value(new_row, new_col) != '🟦' # Si no pasa por las celdas visitadas
                 and self.board.get_cell_value(new_row, new_col) != '🟨' # Si no pasa por los bloqueos
-                and self.is_possible_to_win_verification((new_row, new_col), win_row)): # Llamado recursivo y para que se cumpla el IF tiene que hacer retornado True
+                and self.is_possible_to_win_verification((new_row, new_col), win_row, obligatory_cell, passed)): # Llamado recursivo y para que se cumpla el IF tiene que hacer retornado True
 
                 self.board.set_cell(row, col, current_value) # Restaurar las celdas por las que paso
                 return True # Retorna True si pudo llegar
@@ -119,6 +132,10 @@ option: """))
             if node_value == '🟨': # Si la celda a la que va a saltar es una celda bloqueada
                 print("You can't move there, is a locked cell")
                 return
+            
+            if node_value == '🟩': # Si la celda a la que va a saltar es una celda obligatoria
+                print("You can't move there, is a obligatory cell")
+                return
 
             if node_value == '⚫': # Si la direccion a la que va a saltar esta el jugador negro
                 jump_row, jump_col = self.jump_two_spaces(new_row, new_col, direction, self.white_pos) # El jugador blanco salta dos celdas si hay un jugador negro en la dirección
@@ -159,6 +176,10 @@ option: """))
                 print("You can't move there, is a locked cell")
                 return
 
+            if node_value == '🟩': # Si la celda a la que va a saltar es una celda obligatoria
+                print("You can't move there, is a obligatory cell")
+                return
+            
             if node_value == '⚪': # Si en la direccion a la que va a saltar esta el jugador blanco
                 jump_row, jump_col = self.jump_two_spaces(new_row, new_col, random_direction, self.black_pos) # El jugador negro salta dos celdas si hay un jugador blanco
                 self.board.set_cell(*self.black_pos, '🟫')  # Restaurar la celda original
@@ -194,6 +215,10 @@ option: """))
             print("Cannot be blocked, the cell is already locked")
             return
 
+        if self.board.get_cell_value(row, col) == '🟩': # Verificar si la casilla seleccionada esta la casilla obligatoria para ganar
+            print("Cannot be blocked, in the cell is the obligatory cell")
+            return
+        
         if self.board.get_cell_value(row, col) == '⚫': # Verificar si la casilla seleccionada esta el jugador negro
             print("Cannot be blocked, in the cell is the black player")
             return
@@ -223,6 +248,10 @@ option: """))
 
         if self.board.get_cell_value(row, col) == '🟨': # Verificar si la casilla seleccionada ya está bloqueada
             print("Cannot be blocked, the cell is already locked")
+            return
+        
+        if self.board.get_cell_value(row, col) == '🟩': # Verificar si la casilla seleccionada esta la casilla obligatoria para ganar
+            print("Cannot be blocked, in the cell is the obligatory cell")
             return
                         
         if self.board.get_cell_value(row, col) == '⚪': # Verificar si la casilla seleccionada esta el jugador blanco
