@@ -36,7 +36,7 @@ class Board:
         symbol_table = '🟫'
         curr_row = self.board.head # Itera a traves de las filas de la matriz enlazada
 
-        while curr_row: # Itera a través de los nodos de cada fila
+        while curr_row: # Itera a través de las filas del tablero
             curr_node = curr_row.value.head 
             while curr_node: # Itera a través de los nodos de cada fila
                 if curr_node.value is None: # Asigna un símbolo de la tabla a cada celda vacía en el tablero
