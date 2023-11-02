@@ -25,20 +25,5 @@ class LinkedList:
       self.head = new_node
       self.size += 1
 
-
-  def delete_arbitrary_position(self, current, pos, x = 0):
-    if self.is_empty():
-      raise EmptyList("Empty list")
-    if pos < 0 or pos > self.size:
-      raise OutRange("Out range position")
-    elif pos == 0:
-      self.delete_head()
-    elif x == pos - 1:
-      current.next = current.next.next
-      self.size -= 1
-    else:
-      self.delete_arbitrary_position(current.next, pos, x+1)
-
-
   def is_empty(self):
     return self.size == 0

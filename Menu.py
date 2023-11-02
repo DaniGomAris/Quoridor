@@ -6,7 +6,10 @@ from Game import Game
 board = Board(int(input("Enter board size: ")))
 game = Game(board)
 
-def initial_menu():
+def menu_quoridor():
+    """
+    Menu del juego, esta tanto el menu inicial, como el menu de juego
+    """
     while True:
         option = int(input("""
 ---------- Menu Quoridor ----------
@@ -47,6 +50,7 @@ option: """))
         if white_option == 1:
             game.white_move()
             print("-----------------------------------")
+
         if white_option == 2:
             game.white_blockade()
             print("-----------------------------------")
@@ -61,17 +65,21 @@ option: """))
         print()
         board.print_board()
         print()
+
         print("-------------Black Turn-------------")
         print("""
 Black Turn
 1. Move
 2. Block""")
+        
         print()    
         black_option  = random.randint(1, 2)
+
         if black_option  == 1:
             print("¡The black player moved!")
             game.black_move()
             print("-----------------------------------")
+
         if black_option  == 2:
             game.black_blockade()
             print("-----------------------------------")

@@ -1,4 +1,4 @@
 import Menu
 
 if __name__ == "__main__":
-    Menu.initial_menu()
+    Menu.menu_quoridor()
